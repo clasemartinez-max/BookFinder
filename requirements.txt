@@ -1,0 +1,5 @@
+streamlit
+ddgs
+requests
+pypdf
+colorama
