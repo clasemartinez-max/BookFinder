@@ -9,12 +9,24 @@ Ejecutar en local:
     streamlit run app.py
 """
 
+import re
+from urllib.parse import unquote, urlparse
+
 import streamlit as st
 
-APP_VERSION = "1.1"
+APP_VERSION = "2.0"
+
+
+def _pdf_filename(url: str) -> str:
+    """Extrae un nombre de archivo legible desde la URL para dar referencia."""
+    path = urlparse(url).path
+    name = unquote(path.rsplit("/", 1)[-1] or "")
+    name = re.sub(r"\.pdf$", "", name, flags=re.IGNORECASE)
+    name = re.sub(r"[_\-+]+", " ", name).strip()
+    return name or "documento"
 
 st.set_page_config(
-    page_title="Book PDF Finder",
+    page_title="The Book PDF Finder",
     page_icon="📚",
     layout="centered",
 )
@@ -44,7 +56,7 @@ MAX_RESULTS = 5
 # Encabezado
 # ---------------------------------------------------------------------------
 
-st.title("📚 Book PDF Finder")
+st.title("📚 The Book PDF Finder")
 st.caption(f"v{APP_VERSION}")
 
 st.markdown(
@@ -159,6 +171,7 @@ def run_search(title: str, author: str, academic: bool) -> list[dict]:
             resultados.append({
                 "url": url,
                 "domain": _domain(url),
+                "filename": _pdf_filename(url),
                 "size_kb": info["size_kb"],
                 "free_library": _is_free_library(url),
             })
@@ -211,7 +224,7 @@ if buscar:
                     badge_str = " · ".join(badges)
 
                     st.markdown(
-                        f"**[{i}] {r['domain']}**"
+                        f"**[{i}] {r['domain']}** &nbsp;|&nbsp; {r['filename']}"
                         + (f" &nbsp;·&nbsp; {badge_str}" if badge_str else "")
                     )
                     st.link_button("🔗 Abrir PDF", r["url"], use_container_width=True)
@@ -223,5 +236,5 @@ if buscar:
 st.divider()
 st.markdown(
     f"App creada por [**clasemartinez**](https://www.linkedin.com/in/claudiomartinez1/) "
-    f"· Book PDF Finder v{APP_VERSION}"
+    f"· The Book PDF Finder v{APP_VERSION}"
 )
