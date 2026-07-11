@@ -1,5 +1,5 @@
 """
-Book PDF Finder — Web App (Streamlit)
+PDF Book Finder — Web App (Streamlit)
 Busca libros y papers en PDF descargables y gratuitos.
 
 Usa book_finder.py como motor de búsqueda (validación rápida por
@@ -26,7 +26,7 @@ def _pdf_filename(url: str) -> str:
     return name or "documento"
 
 st.set_page_config(
-    page_title="The Book PDF Finder",
+    page_title="PDF Book Finder",
     page_icon="📚",
     layout="centered",
 )
@@ -56,7 +56,7 @@ MAX_RESULTS = 5
 # Encabezado
 # ---------------------------------------------------------------------------
 
-st.title("📚 The Book PDF Finder")
+st.title("📚 PDF Book Finder")
 st.caption(f"v{APP_VERSION}")
 
 st.markdown(
@@ -236,5 +236,5 @@ if buscar:
 st.divider()
 st.markdown(
     f"App creada por [**clasemartinez**](https://www.linkedin.com/in/claudiomartinez1/) "
-    f"· The Book PDF Finder v{APP_VERSION}"
+    f"· PDF Book Finder v{APP_VERSION}"
 )
